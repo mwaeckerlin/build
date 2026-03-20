@@ -3,13 +3,7 @@ Build Environment
 
 Docker image for generic build steps. NOT FOR DEPLOYMENTS — use this image only in build stages of a multi-stage Dockerfile.
 
-The image is based on [mwaeckerlin/very-base](https://github.com/mwaeckerlin/very-base) and includes the following tools:
-
-- `git`
-- `python3`
-- `g++`
-- `make`
-- `gpg`
+The image is based on [mwaeckerlin/very-base](https://github.com/mwaeckerlin/very-base) and includes often needed development tools.
 
 Example
 -------
