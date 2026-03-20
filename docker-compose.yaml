@@ -1,4 +1,0 @@
-services:
-  build:
-    image: mwaeckerlin/build
-    build: .
