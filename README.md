@@ -10,6 +10,8 @@ Security
 
 The image uses a `${BUILD_USER}` (coder) for building and a separate `${RUN_USER}` for running the application, so the runtime user cannot overwrite files owned by the build user. Security is key. Additional useful variables are available from the upper base image [mwaeckerlin/scratch](https://github.com/mwaeckerlin/scratch).
 
+Trade-off: `PATH` contains the relative entries `node_modules/.bin` and `/app/node_modules/.bin` so that locally installed Node tools can be called directly in build steps. They are listed *after* the system paths, so a binary installed by an npm package can never shadow a system command.
+
 Example
 -------
 
