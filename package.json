@@ -1,7 +1,11 @@
 {
   "name": "@mwaeckerlin/build",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "scripts": {
-    "build": "docker compose build"
+    "build": "docker compose build",
+    "test": "npm run test:docs && npm run test:config",
+    "test:docs": "bash tests/docs-contract.sh",
+    "test:config": "npm run build && bash tests/config-contract.sh mwaeckerlin/build",
+    "deploy": "docker compose push"
   }
 }
