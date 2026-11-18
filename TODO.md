@@ -4,4 +4,4 @@ One line per task, newest on top: date, status, who asked. An entry is removed w
 
 ## Maintainer orders
 
-Nothing open.
+- open, decision of Marc: no LICENSE

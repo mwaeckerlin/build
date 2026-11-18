@@ -1,8 +1,9 @@
 {
   "name": "@mwaeckerlin/build",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "scripts": {
     "build": "docker compose build",
+    "build:doc": "plantuml -tsvg ARCHITECTURE.md",
     "test": "npm run test:docs && npm run test:config",
     "test:docs": "bash tests/docs-contract.sh",
     "test:config": "npm run build && bash tests/config-contract.sh mwaeckerlin/build",

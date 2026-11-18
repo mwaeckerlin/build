@@ -73,6 +73,32 @@ else
         _fail "local_node_tool_found" "a tool in node_modules/.bin is not found: '${LOCAL}'"
     fi
 
+    # the build argument PACKAGES replaces the default list: an image built
+    # with bash alone carries bash and none of the default tool chain
+    CHILD="${IMAGE%%:*}-config-contract-packages"
+    if docker build --quiet --build-arg PACKAGES=bash -t "${CHILD}" "$(dirname "$0")/.." > /dev/null 2>&1; then
+        CHILD_BASH=$(docker run --rm --pull=never "${CHILD}" sh -c 'command -v bash' 2>&1)
+        CHILD_GCC=$(docker run --rm --pull=never "${CHILD}" sh -c 'command -v gcc || echo none' 2>&1)
+        docker image rm "${CHILD}" > /dev/null
+        if [[ -n "${CHILD_BASH}" && "${CHILD_GCC}" == "none" ]]; then
+            _pass "packages_replace_the_list"
+        else
+            _fail "packages_replace_the_list" "bash: '${CHILD_BASH}', gcc: '${CHILD_GCC}'"
+        fi
+    else
+        _fail "packages_replace_the_list" "the image does not build with PACKAGES=bash"
+    fi
+
+    # the node of the official LTS image node:lts-alpine, pulled once
+    docker image inspect node:lts-alpine > /dev/null 2>&1 || docker pull -q node:lts-alpine > /dev/null
+    LTS=$(docker image inspect --format '{{range .Config.Env}}{{println .}}{{end}}' node:lts-alpine 2>/dev/null | sed -n 's/^NODE_VERSION=//p')
+    NODE_VERSION_VALUE=$(_run node -p process.versions.node 2>&1)
+    if [[ -n "${LTS}" && "${NODE_VERSION_VALUE}" == "${LTS%%.*}."* ]]; then
+        _pass "node_is_current_lts"
+    else
+        _fail "node_is_current_lts" "node ${NODE_VERSION_VALUE}, LTS «${LTS}» (docker pull node:lts-alpine)"
+    fi
+
     NODE_ENV_VALUE=$(docker image inspect --format '{{range .Config.Env}}{{println .}}{{end}}' "${IMAGE}" | sed -n 's/^NODE_ENV=//p')
     if [[ "${NODE_ENV_VALUE}" == "development" ]]; then
         _pass "node_env_development"

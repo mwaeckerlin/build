@@ -1,5 +1,7 @@
 FROM mwaeckerlin/very-base
-ARG PACKAGES="autoconf automake bash build-base bzip2 ca-certificates curl g++ gcompat git gpg gpg-agent gpgv libffi-dev libtool linux-headers make nodejs npm openssl-dev php py3-pip python3 readline-dev ruby ruby-dev upx yarn zlib-dev"
+# nodejs-current carries the active Node.js LTS on Alpine 3.24 (26.x), the
+# package nodejs the previous one (24.x); it provides nodejs for npm and yarn
+ARG PACKAGES="autoconf automake bash build-base bzip2 ca-certificates curl g++ gcompat git gpg gpg-agent gpgv libffi-dev libtool linux-headers make nodejs-current npm openssl-dev php py3-pip python3 readline-dev ruby ruby-dev upx yarn zlib-dev"
 ENV CONTAINERNAME="build"
 ENV NODE_ENV="development"
 # system paths first: a binary dropped into node_modules/.bin by an npm package

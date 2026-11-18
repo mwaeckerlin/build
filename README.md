@@ -2,7 +2,7 @@
 
 Docker image for generic build steps. **Not for deployments** — use this image only in build stages of a multi-stage Dockerfile.
 
-The image is based on [mwaeckerlin/very-base](https://github.com/mwaeckerlin/very-base) and includes often needed development tools: C and C++ tool chain with autotools, git, gpg, curl, Node.js with npm and yarn, Python with pip, PHP, Ruby and upx. The build argument `PACKAGES` replaces that list. The image is published for `linux/amd64` and `linux/arm64`.
+The image is based on [mwaeckerlin/very-base](https://github.com/mwaeckerlin/very-base) and includes often needed development tools: C and C++ tool chain with autotools, git, gpg, curl, Node.js of the current LTS (Alpine package `nodejs-current`) with npm and yarn, Python with pip, PHP, Ruby and upx. The build argument `PACKAGES` replaces that list. The image is published for `linux/amd64` and `linux/arm64`.
 
 ## Security
 
@@ -28,8 +28,10 @@ See also: [mwaeckerlin/nodejs-build](https://github.com/mwaeckerlin/nodejs-build
 ## Development
 
 ```bash
-$ npm run build
-$ npm test
+npm run build
+npm test
 ```
 
 `npm test` checks the feature register ([FEATURES.md](FEATURES.md), [TESTS.md](TESTS.md)) and runs the image contract `tests/config-contract.sh`. The image is built and published by the reusable workflow of [mwaeckerlin/scratch](https://github.com/mwaeckerlin/scratch#publishing-on-docker-hub).
+
+The building blocks, the runs and the deployment are described in [ARCHITECTURE.md](ARCHITECTURE.md).
